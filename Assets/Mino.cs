@@ -15,13 +15,13 @@ public class Mino : MonoBehaviour
     public float fallTime = 1f;
 
     // ステージサイズ
-    private static int width = 100;
-    private static int height = 100;
+    private static float width = 100;
+    private static float height = 100;
 
     // mino 回転
     public Vector3 rotationPoint;
 
-    private static Transform[,] grid = new Transform[width, height];
+    private static Transform[,] grid = new Transform[(int)width, (int)height];
     GameObject test;
     Rigidbody2D rb;
 
@@ -34,8 +34,9 @@ public class Mino : MonoBehaviour
         //rb = gameObject.GetComponent<Rigidbody2D>();
         //Debug.Log(rb);
         //Vector2 myGravity = new Vector2(0, 9.81f);
+        
     }
-    private Vector3 _velocity = new Vector3(0, -0.02f, 0);
+    private Vector3 _velocity = new Vector3(0, -15, 0);
     // Update is called once per frame
     void Update()
     {
@@ -46,8 +47,7 @@ public class Mino : MonoBehaviour
     }
     void MinoMovement()
     {
-        //GameObject tilemapgameobj = GameObject.Find("Tilemap (1)");
-        //GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+        
 
         // 左入力
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -72,10 +72,12 @@ public class Mino : MonoBehaviour
             || Time.time > 0
             )
         {
+            //Debug.Log("down");
+
             //Vector2 myGravity = new Vector2(0, -9.81f);
             //rb.AddForce(myGravity);
 
-            //transform.position = transform.position + (_velocity * Time.deltaTime);
+            transform.position = transform.position + (_velocity * Time.deltaTime);
             //transform.position += new Vector3(0, -1, 0);
 
             //Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
@@ -83,7 +85,7 @@ public class Mino : MonoBehaviour
             if (!CanMove())
             {
                 transform.position -= new Vector3(0, -1, 0);
-                Debug.Log("CanMove False");
+                //Debug.Log("CanMove False");
                 AddToGrid();
                 this.gameObject.transform.DetachChildren();
                 GameObject.FindObjectOfType<Spawner>().SpawnBlock();
@@ -140,12 +142,15 @@ public class Mino : MonoBehaviour
     {
         foreach (Transform children in transform)
         {
-            int roundX = Mathf.RoundToInt(children.transform.position.x);
-            int roundY = Mathf.RoundToInt(children.transform.position.y);
+            float roundX = Mathf.RoundToInt(children.transform.position.x * 10.0f) / 10.0f;
+            float roundY = Mathf.RoundToInt(children.transform.position.y * 10.0f) / 10.0f;
 
-            grid[roundX, roundY] = children;
-            Debug.Log(grid[roundX, roundY]);
-            //Vector3Int cellPosition = gridLayout.WorldToCell(roundX, roundY,0);
+            grid[(int)roundX, (int)roundY] = children;
+            //Debug.Log(roundX + "," + roundY);
+            GameObject tilemapgameobj = GameObject.Find("Tilemap");
+            GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+            Vector3Int cellPosition = gridLayout.WorldToCell(children.transform.position);
+            Debug.Log(roundX + "," + roundY + " = " +cellPosition);
         }
     }
     // minoの移動範囲の制御

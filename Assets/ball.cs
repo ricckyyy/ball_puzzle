@@ -6,8 +6,8 @@ public class ball : MonoBehaviour
 {
     private void Start()
     {
-        gameObject.AddComponent<Rigidbody2D>();
-        Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
+        //gameObject.AddComponent<Rigidbody2D>();
+        //Rigidbody2D rb = gameObject.GetComponent<Rigidbody2D>();
 
     }
 }
