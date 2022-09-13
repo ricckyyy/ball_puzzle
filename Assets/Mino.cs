@@ -83,7 +83,7 @@ public class Mino : MonoBehaviour
             if (!CanMove())
             {
                 transform.position -= new Vector3(0, -1, 0);
-                Debug.Log("CanMove False");
+                //Debug.Log("CanMove False");
                 AddToGrid();
                 this.gameObject.transform.DetachChildren();
                 GameObject.FindObjectOfType<Spawner>().SpawnBlock();
@@ -144,7 +144,7 @@ public class Mino : MonoBehaviour
             int roundY = Mathf.RoundToInt(children.transform.position.y);
 
             grid[roundX, roundY] = children;
-            Debug.Log(grid[roundX, roundY]);
+            Debug.Log(roundX　+ "," + roundY);
             //Vector3Int cellPosition = gridLayout.WorldToCell(roundX, roundY,0);
         }
     }
