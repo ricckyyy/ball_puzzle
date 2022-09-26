@@ -21,9 +21,8 @@ public class Mino : MonoBehaviour
     // mino 回転
     public Vector3 rotationPoint;
     Transform obj;
-    private static Transform[,] grid = new Transform[width, height];
-    private static Transform[,] tilegrid ;
-
+    public static Transform[,] grid = new Transform[(int)width, (int)height];
+    
     GameObject test;
     Rigidbody2D rb;
 
@@ -39,36 +38,38 @@ public class Mino : MonoBehaviour
     }
     void MinoMovement()
     {
-        
-
         // 左入力
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            transform.position += new Vector3(-1, 0, 0);
+            transform.position += new Vector3(-0.5f, 0, 0);
             if (!CanMove())
             {
-                transform.position -= new Vector3(-1, 0, 0);
+                transform.position -= new Vector3(-0.5f, 0, 0);
             }
         }
         //右入力
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            transform.position += new Vector3(1, 0, 0);
+            transform.position += new Vector3(0.5f, 0, 0);
             if (!CanMove())
             {
-                transform.position -= new Vector3(1, 0, 0);
+                transform.position -= new Vector3(0.5f, 0, 0);
             }
         }
         //下入力　＋　自動下移動
         else if (Input.GetKeyDown(KeyCode.DownArrow)
             )
         {
-            transform.position += new Vector3(0, -1, 0);
+            transform.position += new Vector3(0, -0.5f, 0);
             if (!CanMove())
             {
-                transform.position -= new Vector3(0, -1, 0);
+                Debug.Log("down");
+                transform.position -= new Vector3(0, -0.5f, 0);
+                
                 AddToGrid();
                 this.enabled = false;
+                
+                
                 GameObject.FindObjectOfType<Spawner>().SpawnBlock();
  
             }
@@ -83,25 +84,32 @@ public class Mino : MonoBehaviour
     {  
         int roundX = Mathf.RoundToInt(transform.position.x);
         int roundY = Mathf.RoundToInt(transform.position.y);
-        grid[roundX, roundY] = this.transform;
+        int roundZ = Mathf.RoundToInt(transform.position.z);
+        GameObject tilemapgameobj = GameObject.Find("Tilemap");
+        GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+        Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
+        transform.position = gridLayout.CellToWorld(cellPosition);
+        grid[cellPosition.x, cellPosition.y] = transform;
+        //Debug.Log(cellPosition.x + " , " + cellPosition.y);
     }
     // minoの移動範囲の制御
     bool CanMove()
     {
         int roundX = Mathf.RoundToInt(transform.position.x);
         int roundY = Mathf.RoundToInt(transform.position.y);
-        //GameObject tilemapgameobj = GameObject.Find("Tilemap");
-        //GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
-        //Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
+        GameObject tilemapgameobj = GameObject.Find("Tilemap");
+        GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+        Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
         //transform.position = gridLayout.CellToWorld(cellPosition);
-
-        if (roundX < 0 || roundX > width || roundY < 0)
+        //Debug.Log(cellPosition.x + ",,," + cellPosition.y + " = " + transform.position);
+        
+        if (cellPosition.x <= 0 || roundX > width || cellPosition.y < 0)
         {
             return false;
         }
-        else if (grid[roundX, roundY] != null)
+        else if (grid[cellPosition.x, cellPosition.y] != null)
         {
-            Debug.Log("No null");
+            Debug.Log(transform.position);
             return false;
         }
         else
