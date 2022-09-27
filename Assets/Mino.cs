@@ -25,11 +25,8 @@ public class Mino : MonoBehaviour
     
     GameObject test;
     Rigidbody2D rb;
+    private Vector3 _velocity = new Vector3(0, -2, 0);
 
-    void Start()
-    {
-    }
-    private Vector3 _velocity = new Vector3(0, -15, 0);
     // Update is called once per frame
     void Update()
     {
@@ -57,10 +54,16 @@ public class Mino : MonoBehaviour
             }
         }
         //下入力　＋　自動下移動
-        else if (Input.GetKeyDown(KeyCode.DownArrow)
+        else if (Input.GetKeyDown(KeyCode.DownArrow)|| Time.time > 0
             )
         {
-            transform.position += new Vector3(0, -0.5f, 0);
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                transform.position += new Vector3(0, -0.5f, 0);
+
+            }
+            transform.position = transform.position + (_velocity * Time.deltaTime);
+
             if (!CanMove())
             {
                 Debug.Log("down");

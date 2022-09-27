@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6546635403268746737}
   - component: {fileID: 1353916191613086638}
-  - component: {fileID: 218558048922523056}
-  - component: {fileID: 8662790320309947942}
-  - component: {fileID: -7801288901972200948}
+  - component: {fileID: 4207483901025189293}
+  - component: {fileID: 1275828110715961034}
+  - component: {fileID: -9159540647095322513}
+  - component: {fileID: -7959403776733667772}
   m_Layer: 0
   m_Name: red
   m_TagString: ball
@@ -77,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -87,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &218558048922523056
+--- !u!114 &4207483901025189293
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fdb2dd44812541d790c1f3cb4fe87ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8662790320309947942
+--- !u!114 &1275828110715961034
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -112,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canRotate: 1
---- !u!58 &-7801288901972200948
+--- !u!58 &-9159540647095322513
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -128,3 +129,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &-7959403776733667772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2968383431539819816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22de38e9728d740f99f770d6610223db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  previosTime: 0
+  fallTime: 1
+  rotationPoint: {x: 0, y: 0, z: 0}

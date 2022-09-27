@@ -147,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33405237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: -1}
+  m_LocalPosition: {x: 5, y: 25, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -262,6 +262,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Blocks:
   - {fileID: -2609796864306143070, guid: ca3554a6c73e94faf87bf44867486580, type: 3}
+  - {fileID: -7251792275974305779, guid: 3fbc8a738d417404e8fa47e4cb978cf1, type: 3}
+  - {fileID: 1275828110715961034, guid: 37042d94150ad4c3391545e95dd06ddd, type: 3}
+  - {fileID: 8662790320309947942, guid: 1c9185f99e8114a8ea7a0d987c7424eb, type: 3}
   trippleBlocks: {fileID: 7660121509027329549, guid: f0bb9ba02346146a1860e16da8ce223f, type: 3}
 --- !u!1 &479861361
 GameObject:

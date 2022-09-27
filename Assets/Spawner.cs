@@ -28,7 +28,7 @@ public class Spawner : MonoBehaviour
         //currentBlocks.transform.position = new Vector3(5, 5, -5);
 
         Block block1 = Instantiate(GetRandamBlock());
-        block1.transform.position = new Vector3(5, 5, -5);
+        block1.transform.position = new Vector3(5, 10, -5);
         //block1.transform.SetParent(currentBlocks.transform, true);
 
         //Block block2 = Instantiate(GetRandamBlock());
