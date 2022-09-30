@@ -66,7 +66,6 @@ public class Mino : MonoBehaviour
 
             if (!CanMove())
             {
-                Debug.Log("down");
                 transform.position -= new Vector3(0, -0.5f, 0);
                 
                 AddToGrid();
@@ -93,7 +92,8 @@ public class Mino : MonoBehaviour
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
         transform.position = gridLayout.CellToWorld(cellPosition);
         grid[cellPosition.x, cellPosition.y] = transform;
-        //Debug.Log(cellPosition.x + " , " + cellPosition.y);
+        Debug.Log(grid[cellPosition.x, cellPosition.y]);
+        Debug.Log(cellPosition.x + " , " + cellPosition.y);
     }
     // minoの移動範囲の制御
     bool CanMove()
@@ -106,13 +106,12 @@ public class Mino : MonoBehaviour
         //transform.position = gridLayout.CellToWorld(cellPosition);
         //Debug.Log(cellPosition.x + ",,," + cellPosition.y + " = " + transform.position);
         
-        if (cellPosition.x <= 0 || roundX > width || cellPosition.y < 0)
+        if (roundX <= 0 || roundX > 9.5 || cellPosition.y < 0)
         {
             return false;
         }
         else if (grid[cellPosition.x, cellPosition.y] != null)
         {
-            Debug.Log(transform.position);
             return false;
         }
         else
