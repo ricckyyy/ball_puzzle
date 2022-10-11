@@ -25,7 +25,7 @@ public class Mino : MonoBehaviour
     
     GameObject test;
     Rigidbody2D rb;
-    private Vector3 _velocity = new Vector3(0, -2, 0);
+    private Vector3 _velocity = new Vector3(0, -5, 0);
 
     // Update is called once per frame
     void Update()
@@ -66,7 +66,7 @@ public class Mino : MonoBehaviour
 
             if (!CanMove())
             {
-                transform.position -= new Vector3(0, -0.5f, 0);
+                //transform.position -= new Vector3(0, -0.5f, 0);
                 
                 AddToGrid();
                 this.enabled = false;
@@ -90,10 +90,26 @@ public class Mino : MonoBehaviour
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
-        transform.position = gridLayout.CellToWorld(cellPosition);
         grid[cellPosition.x, cellPosition.y] = transform;
-        Debug.Log(grid[cellPosition.x, cellPosition.y]);
-        Debug.Log(cellPosition.x + " , " + cellPosition.y);
+        transform.position = gridLayout.CellToWorld(cellPosition);
+
+        //if ((grid[cellPosition.x, cellPosition.y] != null) && grid[cellPosition.x + 1, cellPosition.y -1] != null)
+        //{
+
+        //    grid[cellPosition.x + 1, cellPosition.y -1] = transform;
+        //    transform.position = gridLayout.CellToWorld(cellPosition);
+        //}
+        //else
+
+        //{
+
+        //    grid[cellPosition.x, cellPosition.y] = transform;
+        //    transform.position = gridLayout.CellToWorld(cellPosition);
+        //}
+        //Debug.Log(grid[cellPosition.x, cellPosition.y]);
+        //HasLine(cellPosition.y);
+        //Debug.Log(grid[cellPosition.x, cellPosition.y]);
+        Debug.Log("AddGrid : "+ cellPosition.x + " , " + cellPosition.y);
     }
     // minoの移動範囲の制御
     bool CanMove()
@@ -108,15 +124,38 @@ public class Mino : MonoBehaviour
         
         if (roundX <= 0 || roundX > 9.5 || cellPosition.y < 0)
         {
+            transform.position -= new Vector3(0, -0.5f, 0);
+            Debug.Log(" 0 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
             return false;
         }
-        else if (grid[cellPosition.x, cellPosition.y] != null)
+        else if ((grid[cellPosition.x, cellPosition.y] != null))
         {
+            Debug.Log(" 1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+
+            transform.position -= new Vector3(0, -0.5f, 0);
+            if (grid[cellPosition.x + 1, cellPosition.y] == null)
+            {
+                transform.position += new Vector3(1, -0.5f, 0);
+                Debug.Log(" 2-1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+                return false;
+            }
             return false;
         }
         else
         {
             return true;
         }
+    }
+	void HasLine(int i)
+    {
+    for(int j = 0;j < 10; j++)
+		{
+			 //Debug.Log(j);
+			// Debug.Log(grid[j,i]);
+
+            //if (grid[j, i] == null)
+            //return false;
+        }
+       //return true;
     }
 }
