@@ -15,9 +15,9 @@ public class Mino : MonoBehaviour
     public float fallTime = 1f;
 
     // ステージサイズ
-    private static int width = 100;
-    private static int height = 100;
-
+    private static int width = 10000;
+    private static int height = 10000;
+    
     // mino 回転
     public Vector3 rotationPoint;
     Transform obj;
@@ -25,7 +25,7 @@ public class Mino : MonoBehaviour
     
     GameObject test;
     Rigidbody2D rb;
-    private Vector3 _velocity = new Vector3(0, -5, 0);
+    private Vector3 _velocity = new Vector3(0, -30, 0);
 
     // Update is called once per frame
     void Update()
@@ -59,7 +59,7 @@ public class Mino : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                transform.position += new Vector3(0, -0.5f, 0);
+                transform.position += new Vector3(0, 5, 0);
 
             }
             transform.position = transform.position + (_velocity * Time.deltaTime);
@@ -122,9 +122,9 @@ public class Mino : MonoBehaviour
         //transform.position = gridLayout.CellToWorld(cellPosition);
         //Debug.Log(cellPosition.x + ",,," + cellPosition.y + " = " + transform.position);
         
-        if (roundX <= 0 || roundX > 9.5 || cellPosition.y < 0)
+        if (roundX <= 0 || roundX > 90.5 || cellPosition.y < 0)
         {
-            transform.position -= new Vector3(0, -0.5f, 0);
+            transform.position -= new Vector3(0, -5, 0);
             Debug.Log(" 0 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
             return false;
         }
@@ -132,12 +132,31 @@ public class Mino : MonoBehaviour
         {
             Debug.Log(" 1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
 
-            transform.position -= new Vector3(0, -0.5f, 0);
+            transform.position += new Vector3(0, 5, 0);
             if (grid[cellPosition.x + 1, cellPosition.y] == null)
             {
-                transform.position += new Vector3(1, -0.5f, 0);
-                Debug.Log(" 2-1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
-                return false;
+                if (cellPosition.y % 2 != 0)
+                {
+                    transform.position += new Vector3(10, 0, 0);
+
+                }
+                else
+                {
+                    transform.position += new Vector3(10, -5f, 0);
+                }
+                //Debug.Log(" b " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+                for (int i = cellPosition.y; i >= 0; i--)
+                {
+                    Debug.Log(i);
+                    if (grid[cellPosition.x + 1, i] == null)
+                    {
+                        transform.position += new Vector3(0, -5, 0);
+                        Debug.Log(" 2-1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+                    }
+                    
+                    //return false;
+                }
+                
             }
             return false;
         }
