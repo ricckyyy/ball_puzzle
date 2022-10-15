@@ -92,23 +92,6 @@ public class Mino : MonoBehaviour
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
         grid[cellPosition.x, cellPosition.y] = transform;
         transform.position = gridLayout.CellToWorld(cellPosition);
-
-        //if ((grid[cellPosition.x, cellPosition.y] != null) && grid[cellPosition.x + 1, cellPosition.y -1] != null)
-        //{
-
-        //    grid[cellPosition.x + 1, cellPosition.y -1] = transform;
-        //    transform.position = gridLayout.CellToWorld(cellPosition);
-        //}
-        //else
-
-        //{
-
-        //    grid[cellPosition.x, cellPosition.y] = transform;
-        //    transform.position = gridLayout.CellToWorld(cellPosition);
-        //}
-        //Debug.Log(grid[cellPosition.x, cellPosition.y]);
-        //HasLine(cellPosition.y);
-        //Debug.Log(grid[cellPosition.x, cellPosition.y]);
         Debug.Log("AddGrid : "+ cellPosition.x + " , " + cellPosition.y);
     }
     // minoの移動範囲の制御
