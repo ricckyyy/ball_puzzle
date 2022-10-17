@@ -90,9 +90,10 @@ public class Mino : MonoBehaviour
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
-        grid[cellPosition.x, cellPosition.y] = transform;
+        
         transform.position = gridLayout.CellToWorld(cellPosition);
-        Debug.Log("AddGrid : "+ cellPosition.x + " , " + cellPosition.y);
+        grid[roundX, roundY] = transform;
+        Debug.Log("AddGrid : "+ roundX + " , " + roundY);
     }
     // minoの移動範囲の制御
     bool CanMove()
@@ -101,25 +102,25 @@ public class Mino : MonoBehaviour
         int roundY = Mathf.RoundToInt(transform.position.y);
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
-        Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
+        //Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
         //transform.position = gridLayout.CellToWorld(cellPosition);
         //Debug.Log(cellPosition.x + ",,," + cellPosition.y + " = " + transform.position);
         
-        if (roundX <= 0 || roundX > 9.5 || cellPosition.y < 0)
+        if (roundX <= 0 || roundX > 9.5 || roundY < 0)
         {
             transform.position -= new Vector3(0, -0.5f, 0);
-            Debug.Log(" 0 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+            //Debug.Log(" 0 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
             return false;
         }
-        else if ((grid[cellPosition.x, cellPosition.y] != null))
+        else if ((grid[roundX, roundY] != null))
         {
-            Debug.Log(" 1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+            //Debug.Log(" 1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
 
             transform.position -= new Vector3(0, -0.5f, 0);
-            if (grid[cellPosition.x + 1, cellPosition.y] == null)
+            if (grid[roundX + 1, roundY] == null)
             {
                 transform.position += new Vector3(1, -0.5f, 0);
-                Debug.Log(" 2-1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+                //Debug.Log(" 2-1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
                 return false;
             }
             return false;
