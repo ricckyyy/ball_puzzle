@@ -85,14 +85,11 @@ public class Mino : MonoBehaviour
     }
     void AddToGrid()
     {  
-        //int roundX = Mathf.RoundToInt(transform.position.x);
-        //int roundY = Mathf.RoundToInt(transform.position.y);
-        //int roundZ = Mathf.RoundToInt(transform.position.z);
+        
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
         
-        //transform.position = gridLayout.CellToWorld(cellPosition);
         grid[cellPosition.x, cellPosition.y] = transform;
         Debug.Log("AddGrid : "+ cellPosition.x + " , " + cellPosition.y);
     }
