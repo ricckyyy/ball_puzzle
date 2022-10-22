@@ -21,11 +21,12 @@ public class Mino : MonoBehaviour
     // mino 回転
     public Vector3 rotationPoint;
     Transform obj;
-    public static Transform[,] grid = new Transform[(int)width, (int)height];
-    
+    public static Transform[,] grid = new Transform[(int)(float)width, (int)(float)height];
+    [SerializeField] Tilemap tilemap = default;
     GameObject test;
     Rigidbody2D rb;
     private Vector3 _velocity = new Vector3(0, -5, 0);
+    private object currentBlocks;
 
     // Update is called once per frame
     void Update()
@@ -102,27 +103,70 @@ public class Mino : MonoBehaviour
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
+        //cellpositonのローカル座標を取得
+        Bounds b = gridLayout.GetBoundsLocal(cellPosition);
+
         //transform.position = gridLayout.CellToWorld(cellPosition);
         //Debug.Log(cellPosition.x + ",,," + cellPosition.y + " = " + transform.position);
-        
-        if (roundX <= 0 || roundX > 9.5 || cellPosition.y < 0)
+
+        if (roundX <= 0 || roundX > 9.5 || roundY < 0)
         {
-            transform.position -= new Vector3(0, -0.5f, 0);
-            Debug.Log(" 0 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+            transform.position += new Vector3(0, 0.5f, 0);
+            transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+
             return false;
         }
         else if ((grid[cellPosition.x, cellPosition.y] != null))
         {
-            Debug.Log(" 1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
-
-            transform.position -= new Vector3(0, -0.5f, 0);
-            if (grid[cellPosition.x + 1, cellPosition.y] == null)
+            //ballのx　 == tilemapのcell(ball)のセンターのx
+            if (transform.position.x == b.center.x)
             {
-                transform.position += new Vector3(1, -0.5f, 0);
-                Debug.Log(" 2-1 " + cellPosition.x + " , " + cellPosition.y + "," + transform.position);
+                //右下にballがない場合
+                if (grid[cellPosition.x + 1, cellPosition.y] == null )
+                {
+
+                    Debug.Log("x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
+
+                    transform.position += new Vector3(0.75f, -0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+
+                    //if (cellPosition.y > 0)
+                    //{
+                    //    Debug.Log('a');
+                    //    transform.position += new Vector3(0.75f, -1, 0);
+                    //    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                    //    return false;
+                    //}
+                    return false;
+
+                }
+                //左下にballがない場合
+                if (grid[cellPosition.x - 1, cellPosition.y] == null)
+                {
+                    Debug.Log("x - 1= null" + transform.position + " , " + cellPosition + " , " + b);
+
+                    transform.position += new Vector3(-0.75f, -0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                    return false;
+                }
+                //右下にも左下にもballがある場合
+                else
+                {
+                    Debug.Log("else" + transform.position + " , " + cellPosition + " , " + b);
+
+                    transform.position += new Vector3(0, 0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                    return false;
+                }
+            }
+
+            else
+            {
+                Debug.Log("え" + transform.position + " , " + cellPosition + " , " + b);
                 return false;
             }
-            return false;
+            
+            
         }
         else
         {
