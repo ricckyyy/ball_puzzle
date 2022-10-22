@@ -121,29 +121,54 @@ public class Mino : MonoBehaviour
                     Debug.Log("#center# x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+
+                    if (cellPosition.y > 0 && grid[cellPosition.x + 1, cellPosition.y - 1] == null)
+                    {
+                        Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                        transform.position += new Vector3(0.75f, -0.5f, 0);
+                        transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                        if (grid[cellPosition.x + 2, cellPosition.y - 2] == null)
+                        {
+                            Debug.Log("#center# && x + 1, y - 2 == null" + transform.position + " , " + cellPosition + " , " + b);
+                            transform.position += new Vector3(0.75f, -0.5f, 0);
+                            transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                        }
+                    }
                     return false;
                 }
                 //左下にballがない場合
-                else if (grid[cellPosition.x - 1, cellPosition.y] == null)
+                if (grid[cellPosition.x - 1, cellPosition.y] == null)
                 {
                     Debug.Log("#center# x - 1= null" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(-0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                    if (cellPosition.y > 0 && grid[cellPosition.x - 2, cellPosition.y - 1] == null)
+                    {
+                        Debug.Log("#center# && x - 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                        transform.position += new Vector3(-0.75f, -0.5f, 0);
+                        transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                        if (grid[cellPosition.x - 2, cellPosition.y - 2] == null)
+                        {
+                            Debug.Log("#center# && x - 1, y - 2 == null" + transform.position + " , " + cellPosition + " , " + b);
+                            transform.position += new Vector3(-0.75f, -0.5f, 0);
+                            transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                        }
+                    }
                     return false;
                 }
                 //右下にも左下にもballがある場合
-                else
+                if (grid[cellPosition.x + 1, cellPosition.y] != null && grid[cellPosition.x - 1, cellPosition.y] != null)
                 {
                     Debug.Log("#center# x + 1 and x - 1 = null" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0, 0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                     return false;
                 }
+                return false;
             }
             //ballのx != tilemapのcell(ball)のセンターのx
             else
             {
-                //Debug.Log("else" + transform.position + " , " + cellPosition + " , " + b);
                 //gridにあるballの　右　にズレて落ちてきた場合
                 if (transform.position.x - b.center.x > 0　&& grid[cellPosition.x + 1, cellPosition.y] == null)
                 {
