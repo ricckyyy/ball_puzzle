@@ -121,19 +121,30 @@ public class Mino : MonoBehaviour
                     Debug.Log("#center# x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-
-                    if (cellPosition.y > 0 && grid[cellPosition.x + 1, cellPosition.y - 1] == null)
+                    if (cellPosition.y > 0)
                     {
-                        Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
-                        transform.position += new Vector3(0.75f, -0.5f, 0);
-                        transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-                        if (grid[cellPosition.x + 2, cellPosition.y - 2] == null)
+                        Debug.Log("cellPosition.y > 0");
+                        for (int i = 1; i <= cellPosition.y; i++)
                         {
-                            Debug.Log("#center# && x + 1, y - 2 == null" + transform.position + " , " + cellPosition + " , " + b);
-                            transform.position += new Vector3(0.75f, -0.5f, 0);
-                            transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                            Debug.Log(i);
+                            if (grid[cellPosition.x + i, cellPosition.y - i] == null)
+                            {
+
+                                Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                transform.position += new Vector3(0.75f, -0.5f, 0);
+                                transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                                //if (grid[cellPosition.x + 2, cellPosition.y - 2] == null)
+                                //{
+                                //    Debug.Log("#center# && x + 1, y - 2 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                //    transform.position += new Vector3(0.75f, -0.5f, 0);
+                                //    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                                //}
+                            }
+
                         }
                     }
+                    
+                    
                     return false;
                 }
                 //左下にballがない場合
