@@ -104,14 +104,10 @@ public class Mino : MonoBehaviour
         //cellpositonのローカル座標を取得
         Bounds b = gridLayout.GetBoundsLocal(cellPosition);
 
-        //transform.position = gridLayout.CellToWorld(cellPosition);
-        //Debug.Log(cellPosition.x + ",,," + cellPosition.y + " = " + transform.position);
-
         if (roundX <= 0 || roundX > 9.5 || roundY < 0)
         {
             transform.position += new Vector3(0, 0.5f, 0);
             transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-
             return false;
         }
         else if ((grid[cellPosition.x, cellPosition.y] != null))
@@ -122,27 +118,15 @@ public class Mino : MonoBehaviour
                 //右下にballがない場合
                 if (grid[cellPosition.x + 1, cellPosition.y] == null )
                 {
-
                     Debug.Log("x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
-
                     transform.position += new Vector3(0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-
-                    //if (cellPosition.y > 0)
-                    //{
-                    //    Debug.Log('a');
-                    //    transform.position += new Vector3(0.75f, -1, 0);
-                    //    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-                    //    return false;
-                    //}
                     return false;
-
                 }
                 //左下にballがない場合
                 if (grid[cellPosition.x - 1, cellPosition.y] == null)
                 {
                     Debug.Log("x - 1= null" + transform.position + " , " + cellPosition + " , " + b);
-
                     transform.position += new Vector3(-0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                     return false;
@@ -151,7 +135,6 @@ public class Mino : MonoBehaviour
                 else
                 {
                     Debug.Log("else" + transform.position + " , " + cellPosition + " , " + b);
-
                     transform.position += new Vector3(0, 0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                     return false;
@@ -161,6 +144,8 @@ public class Mino : MonoBehaviour
             else
             {
                 Debug.Log("え" + transform.position + " , " + cellPosition + " , " + b);
+                transform.position += new Vector3(0, 0.5f, 0);
+                transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                 return false;
             }
             
