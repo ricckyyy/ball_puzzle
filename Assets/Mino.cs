@@ -121,13 +121,15 @@ public class Mino : MonoBehaviour
                     Debug.Log("#center# x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-                    if (cellPosition.y > 0)
+                    Debug.Log(cellPosition.y / 3);
+                    //yが0以上で、偶数の場合
+                    if (cellPosition.y > 0 && cellPosition.y % 2 == 0)
                     {
                         Debug.Log("cellPosition.y > 0");
-                        for (int i = 1; i <= cellPosition.y; i++)
+                        for (int i = 1; i <= 2*cellPosition.y; i++)
                         {
-                            Debug.Log(i);
-                            if (grid[cellPosition.x + i, cellPosition.y - i] == null)
+                            Debug.Log((cellPosition.x + i - cellPosition.y / 3) + " , " + (cellPosition.y - i));
+                            if (grid[cellPosition.x + i - cellPosition.y / 3, cellPosition.y - i] == null)
                             {
 
                                 Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
