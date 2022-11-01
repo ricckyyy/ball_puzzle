@@ -25,7 +25,7 @@ public class Mino : MonoBehaviour
     [SerializeField] Tilemap tilemap = default;
     GameObject test;
     Rigidbody2D rb;
-    private Vector3 _velocity = new Vector3(0, -5, 0);
+    private Vector3 _velocity = new Vector3(0, -10, 0);
     private object currentBlocks;
     List<int> list = new List<int>();
 
