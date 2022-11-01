@@ -27,6 +27,7 @@ public class Mino : MonoBehaviour
     Rigidbody2D rb;
     private Vector3 _velocity = new Vector3(0, -5, 0);
     private object currentBlocks;
+    List<int> list = new List<int>();
 
     // Update is called once per frame
     void Update()
@@ -121,28 +122,29 @@ public class Mino : MonoBehaviour
                     Debug.Log("#center# x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0.75f, -0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-                    Debug.Log(cellPosition.y / 3);
                     //yが0以上で、偶数の場合
                     if (cellPosition.y > 0 && cellPosition.y % 2 == 0)
                     {
                         Debug.Log("cellPosition.y > 0");
-                        for (int i = 1; i <= 2*cellPosition.y; i++)
+                        for (int i = 1; i <= cellPosition.y; i ++)
                         {
                             Debug.Log((cellPosition.x + i - cellPosition.y / 3) + " , " + (cellPosition.y - i));
-                            if (grid[cellPosition.x + i - cellPosition.y / 3, cellPosition.y - i] == null)
-                            {
-
-                                Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
-                                transform.position += new Vector3(0.75f, -0.5f, 0);
-                                transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-                                //if (grid[cellPosition.x + 2, cellPosition.y - 2] == null)
-                                //{
-                                //    Debug.Log("#center# && x + 1, y - 2 == null" + transform.position + " , " + cellPosition + " , " + b);
-                                //    transform.position += new Vector3(0.75f, -0.5f, 0);
-                                //    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
-                                //}
-                            }
-
+                            //for (int j = 0; j <= cellPosition.y; j++)
+                            //{
+                                if (grid[cellPosition.x + i - cellPosition.y / 3, cellPosition.y - i] == null)
+                                {
+                                    Vector3Int newcellpos = new Vector3Int(cellPosition.x + i - cellPosition.y / 3, cellPosition.y - i, -5);
+                                    Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                    //transform.position += new Vector3(0.75f, -0.5f, 0);
+                                    transform.position = gridLayout.CellToWorld(newcellpos);
+                                    //if (grid[cellPosition.x + 2, cellPosition.y - 2] == null)
+                                    //{
+                                    //    Debug.Log("#center# && x + 1, y - 2 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                    //    transform.position += new Vector3(0.75f, -0.5f, 0);
+                                    //    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                                    //}
+                                }
+                            //}
                         }
                     }
                     
