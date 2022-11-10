@@ -24,20 +24,20 @@ public class Spawner : MonoBehaviour
     }
     public void SpawnBlock()
     {
-        currentBlocks = Instantiate(trippleBlocks);
-        currentBlocks.transform.position = new Vector3(5, 24, -5);
+        //currentBlocks = Instantiate(trippleBlocks);
+        //currentBlocks.transform.position = new Vector3(5, 5, -5);
 
         Block block1 = Instantiate(GetRandamBlock());
-        block1.transform.position = new Vector3(5.5f, 25, -5);
-        block1.transform.SetParent(currentBlocks.transform, true);
+        block1.transform.position = new Vector3(5, 10, -5);
+        //block1.transform.SetParent(currentBlocks.transform, true);
 
-        Block block2 = Instantiate(GetRandamBlock());
-        block2.transform.position = new Vector3(5, 24, -5);
-        block2.transform.SetParent(currentBlocks.transform, true);
+        //Block block2 = Instantiate(GetRandamBlock());
+        //block2.transform.position = new Vector3(5, 24, -5);
+        //block2.transform.SetParent(currentBlocks.transform, true);
 
-        Block block3 = Instantiate(GetRandamBlock());
-        block3.transform.position = new Vector3(4.5f, 25, -5);
-        block3.transform.SetParent(currentBlocks.transform, true);
+        //Block block3 = Instantiate(GetRandamBlock());
+        //block3.transform.position = new Vector3(4.5f, 25, -5);
+        //block3.transform.SetParent(currentBlocks.transform, true);
         //if (block1)
         //{
         //    return block1;

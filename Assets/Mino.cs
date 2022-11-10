@@ -20,79 +20,63 @@ public class Mino : MonoBehaviour
 
     // mino 回転
     public Vector3 rotationPoint;
-
-    private static Transform[,] grid = new Transform[width, height];
+    Transform obj;
+    public static Transform[,] grid = new Transform[(int)(float)width, (int)(float)height];
+    [SerializeField] Tilemap tilemap = default;
     GameObject test;
     Rigidbody2D rb;
+    private Vector3 _velocity = new Vector3(0, -5, 0);
+    private object currentBlocks;
+    List<int> evennumberlist = new List<int>() {1,1,2,2,3,3,4,4};
 
-    //public Vector3 target = new Vector3(0, -300, 0);
-    //public float speed = 0f;
-    void Start()
-    {
-        //test = GameObject.Find("0(Clone)");
-        //gameObject.AddComponent<Rigidbody2D>();
-        //rb = gameObject.GetComponent<Rigidbody2D>();
-        //Debug.Log(rb);
-        //Vector2 myGravity = new Vector2(0, 9.81f);
-    }
-    private Vector3 _velocity = new Vector3(0, -0.02f, 0);
     // Update is called once per frame
     void Update()
     {
         MinoMovement();
-        //transform.position = transform.position + (_velocity * Time.deltaTime);
-        //Debug.Log("aaaaaaa");
-        
+
     }
     void MinoMovement()
     {
-        //GameObject tilemapgameobj = GameObject.Find("Tilemap (1)");
-        //GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
-
         // 左入力
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            transform.position += new Vector3(-1, 0, 0);
+            transform.position += new Vector3(-0.5f, 0, 0);
             if (!CanMove())
             {
-                transform.position -= new Vector3(-1, 0, 0);
+                transform.position -= new Vector3(-0.5f, 0, 0);
             }
         }
         //右入力
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            transform.position += new Vector3(1, 0, 0);
+            transform.position += new Vector3(0.5f, 0, 0);
             if (!CanMove())
             {
-                transform.position -= new Vector3(1, 0, 0);
+                transform.position -= new Vector3(0.5f, 0, 0);
             }
         }
         //下入力　＋　自動下移動
-        else if (Input.GetKeyDown(KeyCode.DownArrow)
-            || Time.time > 0
+        else if (Input.GetKeyDown(KeyCode.DownArrow)|| Time.time > 0
             )
         {
-            //Vector2 myGravity = new Vector2(0, -9.81f);
-            //rb.AddForce(myGravity);
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                transform.position += new Vector3(0, -0.5f, 0);
 
-            //transform.position = transform.position + (_velocity * Time.deltaTime);
-            //transform.position += new Vector3(0, -1, 0);
+            }
+            transform.position = transform.position + (_velocity * Time.deltaTime);
 
-            //Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
-            //transform.position = gridLayout.CellToWorld(cellPosition);
             if (!CanMove())
             {
-                transform.position -= new Vector3(0, -1, 0);
-                Debug.Log("CanMove False");
+                //transform.position -= new Vector3(0, -0.5f, 0);
+                
                 AddToGrid();
-                this.gameObject.transform.DetachChildren();
-                GameObject.FindObjectOfType<Spawner>().SpawnBlock();
-
-                Destroy(this.gameObject, 1.0f);
-
                 this.enabled = false;
+                
+                
+                GameObject.FindObjectOfType<Spawner>().SpawnBlock();
+ 
             }
-            //previosTime = Time.time;
         }
         else if(Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -100,73 +84,181 @@ public class Mino : MonoBehaviour
             //transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
         }
     }
-
-
-    //bool HasLine(int i)
-    //{
-    //    for(int j = 0;j < width; j++)
-    //    {
-    //        if (grid[j, i] == null)
-    //            return false;
-    //    }
-    //    return true;
-    //}
-    ////列を消す
-    //void DeleteLine(int i)
-    //{
-    //    for(int j = 0; j < width; j++)
-    //    {
-    //        Destroy(grid[j, i].gameObject);
-    //        grid[j, i] = null;
-    //    }
-    //}
-    ////列を下げる
-    //public void RawDown(int i)
-    //{
-    //    for(int y = i; y < height; y++)
-    //    {
-    //        for(int j = 0; j < width; j++)
-    //        {
-    //            if(grid[j, y] != null)
-    //            {
-    //                grid[j, y - 1] = grid[j, y];
-    //                grid[j, y] = null;
-    //                grid[j, y - 1].transform.position -= new Vector3(0, 1, 0);
-    //            }
-    //        }
-    //    }
-    //}
     void AddToGrid()
-    {
-        foreach (Transform children in transform)
-        {
-            int roundX = Mathf.RoundToInt(children.transform.position.x);
-            int roundY = Mathf.RoundToInt(children.transform.position.y);
-
-            grid[roundX, roundY] = children;
-            Debug.Log(grid[roundX, roundY]);
-            //Vector3Int cellPosition = gridLayout.WorldToCell(roundX, roundY,0);
-        }
+    {  
+        GameObject tilemapgameobj = GameObject.Find("Tilemap");
+        GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+        Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
+        
+        grid[cellPosition.x, cellPosition.y] = transform;
+        Debug.Log("AddGrid : "+ cellPosition.x + " , " + cellPosition.y);
     }
     // minoの移動範囲の制御
     bool CanMove()
     {
-        foreach (Transform children in transform)
+        int roundX = Mathf.RoundToInt(transform.position.x);
+        int roundY = Mathf.RoundToInt(transform.position.y);
+        GameObject tilemapgameobj = GameObject.Find("Tilemap");
+        GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+        Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
+        //cellpositonのローカル座標を取得
+        Bounds b = gridLayout.GetBoundsLocal(cellPosition);
+
+        if (roundX <= 0 || roundX > 9.5 || roundY < 0)
         {
-            int roundX = Mathf.RoundToInt(children.transform.position.x);
-            int roundY = Mathf.RoundToInt(children.transform.position.y);
-
-            if (roundX < 0 || roundX > width || roundY < 0)
-            {
-                return false;
-            }
-            //Debug.Log(grid[roundX, roundY]);
-            if (grid[roundX, roundY] != null)
-            {
-                return false;
-            }
-
+            transform.position += new Vector3(0, 0.5f, 0);
+            transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+            return false;
         }
-        return true;
+        else if ((grid[cellPosition.x, cellPosition.y] != null))
+        {
+            //ballのx　 == tilemapのcell(ball)のセンターのx
+            if (transform.position.x == b.center.x)
+            {
+                //右下にballがない場合
+                if (grid[cellPosition.x + 1, cellPosition.y] == null )
+                {
+                    Debug.Log("#center# x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
+                    transform.position += new Vector3(0.75f, -0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+
+                    //右下に落ちれるだけ落ちる
+                    //yが0以上で、偶数の場合
+                    if (cellPosition.y > 0 && cellPosition.y % 2 == 0)
+                    {
+                        Debug.Log("cellPosition.y > 0 && cellPosition.y % 2 == 0");
+                        for (int i = 0; i <= cellPosition.y; i ++)
+                        {
+                            int yy = cellPosition.y - i;
+                            int xx = cellPosition.x + evennumberlist[i];
+                            Debug.Log(xx + " , " + yy );
+
+                            if (grid[xx,yy] == null)
+                            {
+                                Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
+                                Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                transform.position = gridLayout.CellToWorld(newcellpos);
+                            }
+                        }
+                    }
+                    //yが0以上で奇数の場合
+                    else if (cellPosition.y > 0 && cellPosition.y % 2 != 0)
+                    {
+                        Debug.Log("cellPosition.y > 0 && y = 奇数");
+                        for (int i = 0; i <= cellPosition.y; i++)
+                        {
+                            int yy = cellPosition.y - i;
+                            int xx = cellPosition.x + evennumberlist[i + 1];
+                            Debug.Log(xx + " , " + yy);
+
+                            if (grid[xx, yy] == null)
+                            {
+                                Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
+                                Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                transform.position = gridLayout.CellToWorld(newcellpos);
+                            }
+                        }
+                    }
+                    return false;
+                }
+                //左下にballがない場合
+                if (grid[cellPosition.x - 1, cellPosition.y] == null)
+                {
+                    Debug.Log("#center# x - 1= null" + transform.position + " , " + cellPosition + " , " + b);
+                    transform.position += new Vector3(-0.75f, -0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                    //yが0以上で、偶数の場合
+                    //左下に落ちれるだけ落ちる
+                    if (cellPosition.y > 0 && cellPosition.y % 2 == 0)
+                    {
+                        Debug.Log("cellPosition.y > 0 && cellPosition.y % 2 == 0");
+                        for (int i = 0; i <= cellPosition.y; i++)
+                        {
+                            int yy = cellPosition.y - i;
+                            int xx = cellPosition.x - evennumberlist[i + 1];
+                            Debug.Log(xx + " , " + yy);
+
+                            if (grid[xx, yy] == null)
+                            {
+                                Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
+                                Debug.Log("#center# && x - 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                transform.position = gridLayout.CellToWorld(newcellpos);
+                            }
+                        }
+                    }
+                    //yが0以上で奇数の場合
+                    else if (cellPosition.y > 0 && cellPosition.y % 2 != 0)
+                    {
+                        Debug.Log("cellPosition.y > 0 && y = 奇数");
+                        for (int i = 0; i <= cellPosition.y; i++)
+                        {
+                            int yy = cellPosition.y - i;
+                            int xx = cellPosition.x - evennumberlist[i];
+                            Debug.Log(xx + " , " + yy);
+
+                            if (grid[xx, yy] == null)
+                            {
+                                Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
+                                Debug.Log("#center# && x + 1 y - 1 == null" + transform.position + " , " + cellPosition + " , " + b);
+                                transform.position = gridLayout.CellToWorld(newcellpos);
+                            }
+                        }
+                    }
+                    return false;
+                }
+                //右下にも左下にもballがある場合
+                if (grid[cellPosition.x + 1, cellPosition.y] != null && grid[cellPosition.x - 1, cellPosition.y] != null)
+                {
+                    Debug.Log("#center# x + 1 and x - 1 = null" + transform.position + " , " + cellPosition + " , " + b);
+                    transform.position += new Vector3(0, 0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                    return false;
+                }
+                return false;
+            }
+            //ballのx != tilemapのcell(ball)のセンターのx
+            else
+            {
+                //gridにあるballの　右　にズレて落ちてきた場合
+                if (transform.position.x - b.center.x > 0 && grid[cellPosition.x + 1, cellPosition.y] == null)
+                {
+                    Debug.Log("dx + : " + transform.position + " , " + cellPosition + " , " + b);
+                    transform.position += new Vector3(0.75f, 0, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                }
+                //gridにあるballの　左　にズレて落ちてきた場合
+                else if (transform.position.x - b.center.x < 0 && grid[cellPosition.x - 1, cellPosition.y] == null)
+                {
+                    Debug.Log("dx - : " + transform.position + " , " + cellPosition + " , " + b);
+                    transform.position += new Vector3(-0.75f, 0, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                }
+                else
+                {
+                    Debug.Log("else else" + transform.position + " , " + cellPosition + " , " + b);
+                    transform.position += new Vector3(0, 0.5f, 0);
+                    transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
+                }
+                return false;
+            }
+            
+            
+        }
+        else
+        {
+            return true;
+        }
+    }
+	void HasLine(int i)
+    {
+    for(int j = 0;j < 10; j++)
+		{
+			 //Debug.Log(j);
+			// Debug.Log(grid[j,i]);
+
+            //if (grid[j, i] == null)
+            //return false;
+        }
+       //return true;
     }
 }
