@@ -102,11 +102,11 @@ public class Mino : MonoBehaviour
                 if (delline3[d - 1] == 1)
                 {
                     //Thread.Sleep(1000);
-                    Destroy(grid[d, cellPosition.y].gameObject,0.5f);
-
+                    Destroy(grid[d, cellPosition.y].gameObject,0.25f);
+                    
                 }
             }
-
+            RawDown(cellPosition.y);
         }
     }
     // minoの移動範囲の制御
@@ -134,9 +134,6 @@ public class Mino : MonoBehaviour
                 //右下にballがない場合
                 if (grid[cellPosition.x + 1, cellPosition.y] == null )
                 {
-                    //Debug.Log("#center# x + 1 = null" + transform.position + " , " + cellPosition + " , " + b);
-                    //transform.position += new Vector3(0.75f, -0.5f, 0);
-                    //transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                     //右下に落ちれるだけ落ちる
                     //yが0以上で、偶数の場合
                     if (cellPosition.y >= 0 && cellPosition.y % 2 == 0)
@@ -261,27 +258,36 @@ public class Mino : MonoBehaviour
             return true;
         }
     }
-	void LineJudge(int i)
+	bool LineJudge(int i)
     {
-        
-
     for(int j = 0;j < 10; j++)
 		{
-            //Debug.Log(grid[j + 1, i]);
-            //Debug.Log(j + "," + grid[j, i]);
             if (grid[j, i] != null )
             {
-                //Debug.Log("no null");
                 if(grid[j,i].ToString().StartsWith("white"))
                 {
                     a[j-1] = 1;
-                    //Debug.Log(a[j]);
                 }
             }
             //    return false;
         }
-        //return true;
         Debug.Log(string.Join(",", a));
-        
+        return true;
+    }
+    public void RawDown(int i)
+    {
+        for (int y = i; y < 10; y++)
+        {
+            for (int j = 1; j < 10; j++)
+            {
+                if (grid[j, y] != null)
+                {
+                    Debug.Log(y+" : "+grid[j, y - 1]);
+                    grid[j, y - 1] = grid[j, y];
+                    grid[j, y] = null;
+                    grid[j, y - 1].transform.position -= new Vector3(0, 1, 0);
+                }
+            }
+        }
     }
 }
