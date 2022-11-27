@@ -22,10 +22,9 @@ public class Mino : MonoBehaviour
     [SerializeField] Tilemap tilemap = default;
     //GameObject test;
     //Rigidbody2D rb;
-    private Vector3 _velocity = new Vector3(0, -7, 0);
+    private Vector3 _velocity = new Vector3(0, -5, 0);
     //private object currentBlocks;
     List<int> evennumberlist = new List<int>() {1,1,2,2,3,3,4,4};
-
     int[] a = new int[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
     int[] delline1 = new int[9] { 1, 1, 1, 1, 1, 1, 0, 0, 0 };
     int[] delline2 = new int[9] { 0, 1, 1, 1, 1, 1, 1, 0, 0 };
@@ -93,8 +92,6 @@ public class Mino : MonoBehaviour
         bool r2 = a.SequenceEqual(delline2);
         bool r3 = a.SequenceEqual(delline3);
         bool r4 = a.SequenceEqual(delline4);
-
-        Debug.Log(r1);
         if ((r3)== true)
         {
             for (int d = 1; d < 10; d++)
@@ -102,11 +99,12 @@ public class Mino : MonoBehaviour
                 if (delline3[d - 1] == 1)
                 {
                     //Thread.Sleep(1000);
-                    Destroy(grid[d, cellPosition.y].gameObject, 0.5f);
-                    Debug.Log("Destroy");
+                    Destroy(grid[d, cellPosition.y].gameObject);
+                    grid[d, cellPosition.y] = null;
                 }
             }
-            //RawDown(cellPosition.y);
+            Debug.Log("Destroy");
+            RawDown(cellPosition.y);
         }
     }
     // minoの移動範囲の制御
@@ -331,17 +329,21 @@ public class Mino : MonoBehaviour
     }
     public void RawDown(int i)
     {
+        GameObject tilemapgameobj = GameObject.Find("Tilemap");
+        GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
+
         for (int y = i; y < 10; y++)
         {
-            Debug.Log(y);
             for (int j = 1; j < 10; j++)
             {
                 if (grid[j, y] != null)
                 {
-                    Debug.Log(y);
-                    //grid[j, y - 1] = grid[j, y];
-                    //grid[j, y] = null;
-                    //grid[j, y - 1].transform.position -= new Vector3(0, 1, 0);
+                    Debug.Log(grid[j, y]);
+                    grid[j, y - 1] = grid[j, y];
+                    grid[j, y] = null;
+
+                    grid[j, y - 1].transform.position -= new Vector3(0, 1, 0);
+                    grid[j, y - 1].transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(grid[j, y - 1].transform.position));
                 }
             }
         }
