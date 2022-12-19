@@ -1310,6 +1310,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Blocks:
   - {fileID: 8662790320309947942, guid: 1c9185f99e8114a8ea7a0d987c7424eb, type: 3}
+  - {fileID: 8662790320309947942, guid: 1c9185f99e8114a8ea7a0d987c7424eb, type: 3}
+  - {fileID: 8662790320309947942, guid: 1c9185f99e8114a8ea7a0d987c7424eb, type: 3}
+  - {fileID: 8662790320309947942, guid: 1c9185f99e8114a8ea7a0d987c7424eb, type: 3}
   trippleBlocks: {fileID: 7660121509027329549, guid: f0bb9ba02346146a1860e16da8ce223f, type: 3}
 --- !u!4 &282456822 stripped
 Transform:

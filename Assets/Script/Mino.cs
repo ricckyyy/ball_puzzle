@@ -25,7 +25,11 @@ public class Mino : MonoBehaviour
     private Vector3 _velocity = new Vector3(0, -5, 0);
     //private object currentBlocks;
     List<int> evennumberlist = new List<int>() {1,1,2,2,3,3,4,4};
-    int[] a = new int[9] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    List<int> white = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    List<int> blue = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    List<int> red = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    List<int> green = new List<int>() { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
     int[] delline1 = new int[9] { 1, 1, 1, 1, 1, 1, 0, 0, 0 };
     int[] delline2 = new int[9] { 0, 1, 1, 1, 1, 1, 1, 0, 0 };
     int[] delline3 = new int[9] { 0, 0, 1, 1, 1, 1, 1, 1, 0 };
@@ -87,25 +91,30 @@ public class Mino : MonoBehaviour
         Vector3Int cellPosition = gridLayout.WorldToCell(transform.position);
         grid[cellPosition.x, cellPosition.y] = transform;
         //Debug.Log("AddGrid : "+ cellPosition.x + " , " + cellPosition.y);
-        LineJudge(cellPosition.y);
-        bool r1 = a.SequenceEqual(delline1);
-        bool r2 = a.SequenceEqual(delline2);
-        bool r3 = a.SequenceEqual(delline3);
-        bool r4 = a.SequenceEqual(delline4);
-        if ((r3)== true)
-        {
-            for (int d = 1; d < 10; d++)
-            {
-                if (delline3[d - 1] == 1)
-                {
-                    //Thread.Sleep(1000);
-                    Destroy(grid[d, cellPosition.y].gameObject);
-                    grid[d, cellPosition.y] = null;
-                }
-            }
-            Debug.Log("Destroy");
-            RawDown(cellPosition.y);
-        }
+        LineJudge(cellPosition.y, "white", white);
+        LineJudge(cellPosition.y, "blue", blue);
+        LineJudge(cellPosition.y, "red", red);
+        LineJudge(cellPosition.y, "green", green);
+
+        DeleLine(white.SequenceEqual(delline1), cellPosition.y, delline1);
+        DeleLine(white.SequenceEqual(delline2), cellPosition.y, delline2);
+        DeleLine(white.SequenceEqual(delline3), cellPosition.y, delline3);
+        DeleLine(white.SequenceEqual(delline4), cellPosition.y, delline4);
+
+        DeleLine(blue.SequenceEqual(delline1), cellPosition.y, delline1);
+        DeleLine(blue.SequenceEqual(delline2), cellPosition.y, delline2);
+        DeleLine(blue.SequenceEqual(delline3), cellPosition.y, delline3);
+        DeleLine(blue.SequenceEqual(delline4), cellPosition.y, delline4);
+
+        DeleLine(red.SequenceEqual(delline1), cellPosition.y, delline1);
+        DeleLine(red.SequenceEqual(delline2), cellPosition.y, delline2);
+        DeleLine(red.SequenceEqual(delline3), cellPosition.y, delline3);
+        DeleLine(red.SequenceEqual(delline4), cellPosition.y, delline4);
+
+        DeleLine(green.SequenceEqual(delline1), cellPosition.y, delline1);
+        DeleLine(green.SequenceEqual(delline2), cellPosition.y, delline2);
+        DeleLine(green.SequenceEqual(delline3), cellPosition.y, delline3);
+        DeleLine(green.SequenceEqual(delline4), cellPosition.y, delline4);
     }
     // minoの移動範囲の制御
     bool CanMove()
@@ -311,20 +320,20 @@ public class Mino : MonoBehaviour
             return true;
         }
     }
-	bool LineJudge(int i)
+	bool LineJudge(int i,string boolname,List<int> boolnamelist)
     {
     for(int j = 0;j < 10; j++)
 		{
             if (grid[j, i] != null )
             {
-                if(grid[j,i].ToString().StartsWith("white"))
+                if(grid[j,i].ToString().StartsWith(boolname))
                 {
-                    a[j-1] = 1;
+                    boolnamelist[j-1] = 1;
                 }
             }
             //    return false;
         }
-        Debug.Log(string.Join(",", a));
+        Debug.Log(string.Join(",", white));
         return true;
     }
     public void RawDown(int i)
@@ -346,6 +355,22 @@ public class Mino : MonoBehaviour
                     grid[j, y - 1].transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(grid[j, y - 1].transform.position));
                 }
             }
+        }
+    }
+    void DeleLine(bool result,int y,int[] dellist)
+    {
+        if (result == true)
+        {
+            for (int d = 1; d < 10; d++)
+            {
+                if (dellist[d - 1] == 1)
+                {
+                    Destroy(grid[d, y].gameObject);
+                    grid[d, y] = null;
+                }
+            }
+            Debug.Log("Destroy");
+            RawDown(y);
         }
     }
 }
