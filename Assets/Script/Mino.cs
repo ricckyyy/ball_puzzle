@@ -4,6 +4,8 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class Mino : MonoBehaviour
 {
@@ -34,15 +36,17 @@ public class Mino : MonoBehaviour
     int[] delline2 = new int[9] { 0, 1, 1, 1, 1, 1, 1, 0, 0 };
     int[] delline3 = new int[9] { 0, 0, 1, 1, 1, 1, 1, 1, 0 };
     int[] delline4 = new int[9] { 0, 0, 0, 1, 1, 1, 1, 1, 1 };
-    private void Start()
+    public UnitaskWait unitaskWait;
+
+    void Start()
     {
     }
     // Update is called once per frame
-    void Update()
+    async UniTask Update()
     {
-        MinoMovement();
+        await MinoMovement();
     }
-    void MinoMovement()
+    async UniTask MinoMovement()
     {
         // 左入力
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -74,7 +78,9 @@ public class Mino : MonoBehaviour
 
             if (!CanMove())
             {
-                AddToGrid();
+                await AddToGrid();
+                //await UniTask.Delay(TimeSpan.FromSeconds(1));
+
                 this.enabled = false;
                 GameObject.FindObjectOfType<Spawner>().SpawnBlock();
             }
@@ -84,7 +90,7 @@ public class Mino : MonoBehaviour
             transform.position += new Vector3(0, 1, 0);
         }
     }
-    void AddToGrid()
+    async UniTask AddToGrid()
     {  
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
@@ -96,25 +102,25 @@ public class Mino : MonoBehaviour
         LineJudge(cellPosition.y, "red", red);
         LineJudge(cellPosition.y, "green", green);
 
-        DeleLine(white.SequenceEqual(delline1), cellPosition.y, delline1);
-        DeleLine(white.SequenceEqual(delline2), cellPosition.y, delline2);
-        DeleLine(white.SequenceEqual(delline3), cellPosition.y, delline3);
-        DeleLine(white.SequenceEqual(delline4), cellPosition.y, delline4);
+        await DeleLine(white.SequenceEqual(delline1), cellPosition.y, delline1);
+        await DeleLine(white.SequenceEqual(delline2), cellPosition.y, delline2);
+        await DeleLine(white.SequenceEqual(delline3), cellPosition.y, delline3);
+        await DeleLine(white.SequenceEqual(delline4), cellPosition.y, delline4);
 
-        DeleLine(blue.SequenceEqual(delline1), cellPosition.y, delline1);
-        DeleLine(blue.SequenceEqual(delline2), cellPosition.y, delline2);
-        DeleLine(blue.SequenceEqual(delline3), cellPosition.y, delline3);
-        DeleLine(blue.SequenceEqual(delline4), cellPosition.y, delline4);
+        //DeleLine(blue.SequenceEqual(delline1), cellPosition.y, delline1);
+        //DeleLine(blue.SequenceEqual(delline2), cellPosition.y, delline2);
+        //DeleLine(blue.SequenceEqual(delline3), cellPosition.y, delline3);
+        //DeleLine(blue.SequenceEqual(delline4), cellPosition.y, delline4);
 
-        DeleLine(red.SequenceEqual(delline1), cellPosition.y, delline1);
-        DeleLine(red.SequenceEqual(delline2), cellPosition.y, delline2);
-        DeleLine(red.SequenceEqual(delline3), cellPosition.y, delline3);
-        DeleLine(red.SequenceEqual(delline4), cellPosition.y, delline4);
+        //DeleLine(red.SequenceEqual(delline1), cellPosition.y, delline1);
+        //DeleLine(red.SequenceEqual(delline2), cellPosition.y, delline2);
+        //DeleLine(red.SequenceEqual(delline3), cellPosition.y, delline3);
+        //DeleLine(red.SequenceEqual(delline4), cellPosition.y, delline4);
 
-        DeleLine(green.SequenceEqual(delline1), cellPosition.y, delline1);
-        DeleLine(green.SequenceEqual(delline2), cellPosition.y, delline2);
-        DeleLine(green.SequenceEqual(delline3), cellPosition.y, delline3);
-        DeleLine(green.SequenceEqual(delline4), cellPosition.y, delline4);
+        //DeleLine(green.SequenceEqual(delline1), cellPosition.y, delline1);
+        //DeleLine(green.SequenceEqual(delline2), cellPosition.y, delline2);
+        //DeleLine(green.SequenceEqual(delline3), cellPosition.y, delline3);
+        //DeleLine(green.SequenceEqual(delline4), cellPosition.y, delline4);
     }
     // minoの移動範囲の制御
     bool CanMove()
@@ -336,11 +342,11 @@ public class Mino : MonoBehaviour
         Debug.Log(string.Join(",", white));
         return true;
     }
-    public void RawDown(int i)
+    public async UniTask RawDown(int i)
     {
         GameObject tilemapgameobj = GameObject.Find("Tilemap");
         GridLayout gridLayout = tilemapgameobj.GetComponent<GridLayout>();
-
+        await UniTask.Delay(TimeSpan.FromSeconds(1));
         for (int y = i; y < 10; y++)
         {
             for (int j = 1; j < 10; j++)
@@ -356,8 +362,9 @@ public class Mino : MonoBehaviour
                 }
             }
         }
+
     }
-    void DeleLine(bool result,int y,int[] dellist)
+    async UniTask DeleLine(bool result,int y,int[] dellist)
     {
         if (result == true)
         {
@@ -370,7 +377,7 @@ public class Mino : MonoBehaviour
                 }
             }
             Debug.Log("Destroy");
-            RawDown(y);
+            await RawDown(y);
         }
     }
 }
