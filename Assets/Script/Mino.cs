@@ -151,16 +151,16 @@ public class Mino : MonoBehaviour
                     //yが0以上で、偶数の場合
                     if (cellPosition.y >= 0 && cellPosition.y % 2 == 0)
                     {
-                        Debug.Log("中央　右　偶数");
+                        //Debug.Log("中央　右　偶数");
                         for (int i = 0; i <= cellPosition.y; i ++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x + evennumberlist[i];
                             if (grid[xx,yy] == null)
                             {
-                                Debug.Log(xx + " , " + yy);
+                                //Debug.Log(xx + " , " + yy);
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -168,16 +168,16 @@ public class Mino : MonoBehaviour
                     //yが0以上で奇数の場合
                     else if (cellPosition.y >= 0 && cellPosition.y % 2 != 0)
                     {
-                        Debug.Log("中央　右　奇数");
+                        //Debug.Log("中央　右　奇数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x + evennumberlist[i + 1];
                             if (grid[xx, yy] == null)
                             {
-                                Debug.Log(xx + " , " + yy);
+                                //Debug.Log(xx + " , " + yy);
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -191,17 +191,17 @@ public class Mino : MonoBehaviour
                     //左下に落ちれるだけ落ちる
                     if (cellPosition.y >= 0 && cellPosition.y % 2 == 0)
                     {
-                        Debug.Log("中央　左　偶数");
+                        //Debug.Log("中央　左　偶数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x - evennumberlist[i + 1];
-                            Debug.Log(xx + " , " + yy);
+                            //Debug.Log(xx + " , " + yy);
 
                             if (grid[xx, yy] == null)
                             {
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -209,16 +209,16 @@ public class Mino : MonoBehaviour
                     //yが0以上で奇数の場合
                     else if (cellPosition.y >= 0 && cellPosition.y % 2 != 0)
                     {
-                        Debug.Log("中央　左　奇数");
+                        //Debug.Log("中央　左　奇数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x - evennumberlist[i];
-                            Debug.Log(xx + " , " + yy);
+                            //Debug.Log(xx + " , " + yy);
                             if (grid[xx, yy] == null)
                             {
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -228,7 +228,7 @@ public class Mino : MonoBehaviour
                 //右下にも左下にもballがある場合
                 if (grid[cellPosition.x + 1, cellPosition.y] != null && grid[cellPosition.x - 1, cellPosition.y] != null)
                 {
-                    Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                    //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0, 0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                     return false;
@@ -244,16 +244,16 @@ public class Mino : MonoBehaviour
                     //偶数の場合
                     if (cellPosition.y >= 0 && cellPosition.y % 2 == 0)
                     {
-                        Debug.Log("右ずれ　偶数");
+                        //Debug.Log("右ずれ　偶数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x + evennumberlist[i];
-                            Debug.Log(xx + " , " + yy);
+                            //Debug.Log(xx + " , " + yy);
                             if (grid[xx, yy] == null)
                             {
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -261,16 +261,16 @@ public class Mino : MonoBehaviour
                     //奇数の場合
                     else if (cellPosition.y >= 0 && cellPosition.y % 2 != 0)
                     {
-                        Debug.Log("右ずれ 奇数");
+                        //Debug.Log("右ずれ 奇数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x + evennumberlist[i + 1];
-                            Debug.Log(xx + " , " + yy);
+                            //Debug.Log(xx + " , " + yy);
                             if (grid[xx, yy] == null)
                             {
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -281,32 +281,32 @@ public class Mino : MonoBehaviour
                 {
                     if (cellPosition.y >= 0 && cellPosition.y % 2 == 0)
                     {
-                        Debug.Log("左ずれ　偶数");
+                        //Debug.Log("左ずれ　偶数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x - evennumberlist[i + 1];
-                            Debug.Log(xx + " , " + yy);
+                            //Debug.Log(xx + " , " + yy);
                             if (grid[xx, yy] == null)
                             {
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
                     }
                     else if (cellPosition.y >= 0 && cellPosition.y % 2 != 0)
                     {
-                        Debug.Log("左ずれ 奇数");
+                        //Debug.Log("左ずれ 奇数");
                         for (int i = 0; i <= cellPosition.y; i++)
                         {
                             int yy = cellPosition.y - i;
                             int xx = cellPosition.x - evennumberlist[i];
-                            Debug.Log(xx + " , " + yy);
+                            //Debug.Log(xx + " , " + yy);
                             if (grid[xx, yy] == null)
                             {
                                 Vector3Int newcellpos = new Vector3Int(xx, yy, -5);
-                                Debug.Log(transform.position + " , " + cellPosition + " , " + b);
+                                //Debug.Log(transform.position + " , " + cellPosition + " , " + b);
                                 transform.position = gridLayout.CellToWorld(newcellpos);
                             }
                         }
@@ -314,7 +314,7 @@ public class Mino : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("else else" + transform.position + " , " + cellPosition + " , " + b);
+                    //Debug.Log("else else" + transform.position + " , " + cellPosition + " , " + b);
                     transform.position += new Vector3(0, 0.5f, 0);
                     transform.position = gridLayout.CellToWorld(gridLayout.WorldToCell(transform.position));
                 }
@@ -328,7 +328,7 @@ public class Mino : MonoBehaviour
     }
 	bool LineJudge(int i,string boolname,List<int> boolnamelist)
     {
-    for(int j = 0;j < 10; j++)
+        for(int j = 0;j < 10; j++)
 		{
             if (grid[j, i] != null )
             {
@@ -339,7 +339,7 @@ public class Mino : MonoBehaviour
             }
             //    return false;
         }
-        Debug.Log(string.Join(",", white));
+        //Debug.Log(string.Join(",", white));
         return true;
     }
     public async UniTask RawDown(int i)
@@ -380,4 +380,6 @@ public class Mino : MonoBehaviour
             await RawDown(y);
         }
     }
+
+
 }
